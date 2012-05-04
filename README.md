@@ -23,7 +23,7 @@ Installation
 
 Add following to your projects `project/plugins.sbt`
 
-	addSbtPlugin("net.litola" % "play-sass" % "0.1.0" from "https://github.com/downloads/jlitola/play-sass/play-sass-0.1.0.jar")
+	addSbtPlugin("net.litola" % "play-sass" % "0.1.0" from "http://cloud.github.com/downloads/jlitola/play-sass/play-sass-0.1.0.jar")
 
 This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `app/assets` 
 directories will then be automatically compiled to `*.css` files. Files starting with 
