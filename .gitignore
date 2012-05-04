@@ -1,0 +1,6 @@
+target
+project/target
+*.swp
+.idea
+.idea_modules
+.sass-cache
