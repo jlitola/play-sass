@@ -29,6 +29,12 @@ This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `a
 directories will then be automatically compiled to `*.css` files. Files starting with 
 `_`-character will be left out from compilation as per Play convention.
 
+Limitations
+-----------
+
+Plugin doesn't currently support dependency tracking when you are importing files. This means that 
+changes to imported files won't trigger recompilation of main file.
+
 Versions
 --------
 
