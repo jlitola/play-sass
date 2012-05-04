@@ -56,3 +56,4 @@ MIT-style license, see details from LICENSE file.
 [sass]: http://sass-lang.com/
 [play]: http://www.playframework.org/
 [sbt]: https://github.com/harrah/xsbt
+[play-stylus]: https://github.com/knuton/play-stylus
