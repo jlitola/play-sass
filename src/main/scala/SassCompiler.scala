@@ -10,14 +10,14 @@ object SassCompiler {
   def compile(sassFile: File, options: Seq[String]): (String, Option[String], Seq[File]) = {
     try {
       val parentPath = sassFile.getParentFile.getAbsolutePath
-      val cssOutput = runCompiler(
-        Seq("sass", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
+      val (cssOutput, dependencies) = runCompiler(
+        Seq("sass", "-l", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
-      val compressedCssOutput = runCompiler(
+      val (compressedCssOutput, ignored) = runCompiler(
         Seq("sass", "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
 
-      (cssOutput, Some(compressedCssOutput), Seq(sassFile))
+      (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
     } catch {
       case e: SassCompilationException => {
         throw AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: " + e.message, e.line, e.column)
@@ -25,7 +25,9 @@ object SassCompiler {
     }
   }
 
-  private def runCompiler(command: ProcessBuilder): String = {
+  private val DependencyLine = """^/* on line \d+, (.*) */$""".r
+
+  private def runCompiler(command: ProcessBuilder): (String, Seq[String]) = {
     val err = new StringBuilder
     val out = new StringBuilder
 
@@ -34,9 +36,12 @@ object SassCompiler {
       (error: String) => err.append(error + "\n"))
 
     val process = command.run(capturer)
-    if (process.exitValue == 0)
-      out.mkString
-    else
+    if (process.exitValue == 0) {
+      val dependencies = out.lines.collect {
+          case DependencyLine(f) => f
+        }
+      (out.mkString, dependencies.toList.distinct)
+    } else
       throw new SassCompilationException(err.toString)
 
 

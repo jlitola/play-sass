@@ -7,13 +7,13 @@ class SassCompilerSpec extends Spec {
     it("should compile well-formed scss file") {
       val scssFile = new File("src/test/resources/ok.scss")
       val (full, minified, file) = SassCompiler.compile(scssFile, Nil)
-      assert(full === ".test {\n  display: none; }\n")
+      assert(full.replaceAll("""/\* line.* \*/\n""", "") === ".test {\n  display: none; }\n")
       assert(minified.orNull === ".test{display:none}\n")
     }
     it("should compile well-formed scss file with import") {
       val scssFile = new File("src/test/resources/ok_import.scss")
       val (full, minified, file) = SassCompiler.compile(scssFile, Nil)
-      assert(full === ".test-import {\n  color: black; }\n\n.test {\n  display: none; }\n")
+      assert(full.replaceAll("""/\* line.* \*/\n""", "") === ".test-import {\n  color: black; }\n\n.test {\n  display: none; }\n")
       assert(minified.orNull === ".test-import{color:black}.test{display:none}\n")
     }
     it("should fail to compile malformed scss file") {
