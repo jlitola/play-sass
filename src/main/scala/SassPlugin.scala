@@ -9,17 +9,17 @@ object SassPlugin extends Plugin {
     val sassOptions = SettingKey[Seq[String]]("play-sass-options")
     val sassWatcher = PlayProject.AssetsCompiler("sass",
         { file => (file ** "*.sass") +++ (file ** "*.scss") },
-        sassEntryPoints in Compile,
+        sassEntryPoints,
         { (name, min) => 
             name.replace(".sass", if (min) ".min.css" else ".css") 
             name.replace(".scss", if (min) ".min.css" else ".css") 
         },
         { SassCompiler.compile _ },
-        sassOptions in Compile
+        sassOptions
     )
 
     override val settings = Seq(
-        sassEntryPoints <<= (sourceDirectory in Compile).apply(base => ((base / "assets" ** "*.sass") +++ (base / "assets" ** "*.scss") --- base / "assets" ** "_*")), 
+        sassEntryPoints <<= (sourceDirectory in Compile)(base => ((base / "assets" ** "*.sass") +++ (base / "assets" ** "*.scss") --- base / "assets" ** "_*")), 
         sassOptions := Seq.empty[String],
         resourceGenerators in Compile <+= sassWatcher
     )

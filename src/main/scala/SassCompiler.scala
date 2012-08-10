@@ -25,7 +25,7 @@ object SassCompiler {
     }
   }
 
-  private val DependencyLine = """^/* on line \d+, (.*) */$""".r
+  private val DependencyLine = """^/\* line \d+, (.*) \*/$""".r
 
   private def runCompiler(command: ProcessBuilder): (String, Seq[String]) = {
     val err = new StringBuilder
@@ -40,11 +40,10 @@ object SassCompiler {
       val dependencies = out.lines.collect {
           case DependencyLine(f) => f
         }
+
       (out.mkString, dependencies.toList.distinct)
     } else
       throw new SassCompilationException(err.toString)
-
-
   }
 
   private val LocationLine = """\s*on line (\d+) of (.*)""".r
