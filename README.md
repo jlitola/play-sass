@@ -23,21 +23,17 @@ Installation
 
 Add following to your projects `project/plugins.sbt`
 
-	addSbtPlugin("net.litola" % "play-sass" % "0.1.0" from "http://cloud.github.com/downloads/jlitola/play-sass/play-sass-0.1.0.jar")
+	addSbtPlugin("net.litola" % "play-sass" % "0.1.1" from "http://cloud.github.com/downloads/jlitola/play-sass/play-sass-0.1.1.jar")
 
 This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `app/assets` 
 directories will then be automatically compiled to `*.css` files. Files starting with 
 `_`-character will be left out from compilation as per Play convention.
 
-Limitations
------------
-
-Plugin doesn't currently support dependency tracking when you are importing files. This means that 
-changes to imported files won't trigger recompilation of main file.
-
 Versions
 --------
 
+* *0.1.1* [2012-08-10] Dependency tracking for imported files. Should behave
+	correctly with incrementalAssetsCompilation := true. Changed to use play 2.0.3, sbt 0.11.3.
 * *0.1.0* [2012-05-04] Initial release
 
 Acknowledgements
