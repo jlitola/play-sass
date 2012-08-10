@@ -1,20 +1,25 @@
-import org.scalatest.Spec
+import org.scalatest.FunSpec
 import java.io.File
 import net.litola.SassCompiler
 
-class SassCompilerSpec extends Spec {
+class SassCompilerSpec extends FunSpec {
   describe("SassCompiler") {
     it("should compile well-formed scss file") {
       val scssFile = new File("src/test/resources/ok.scss")
-      val (full, minified, file) = SassCompiler.compile(scssFile, Nil)
+      val (full, minified, deps) = SassCompiler.compile(scssFile, Nil)
       assert(full.replaceAll("""/\* line.* \*/\n""", "") === ".test {\n  display: none; }\n")
       assert(minified.orNull === ".test{display:none}\n")
+      assert(deps.length === 1)
+      assert(deps(0).getName() === "ok.scss")
     }
-    it("should compile well-formed scss file with import") {
+    it("should compile well-formed scss file containing import") {
       val scssFile = new File("src/test/resources/ok_import.scss")
-      val (full, minified, file) = SassCompiler.compile(scssFile, Nil)
+      val (full, minified, deps) = SassCompiler.compile(scssFile, Nil)
       assert(full.replaceAll("""/\* line.* \*/\n""", "") === ".test-import {\n  color: black; }\n\n.test {\n  display: none; }\n")
       assert(minified.orNull === ".test-import{color:black}.test{display:none}\n")
+      assert(deps.length === 2)
+      assert(deps(0).getName() === "_imported.scss")
+      assert(deps(1).getName() === "ok_import.scss")
     }
     it("should fail to compile malformed scss file") {
       val scssFile = new File("src/test/resources/broken.scss")
