@@ -11,10 +11,10 @@ object SassCompiler {
     try {
       val parentPath = sassFile.getParentFile.getAbsolutePath
       val (cssOutput, dependencies) = runCompiler(
-        Seq("sass", "-l", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
+        Seq("sass.bat", "-l", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
       val (compressedCssOutput, ignored) = runCompiler(
-        Seq("sass", "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
+        Seq("sass.bat", "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
 
       (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
