@@ -11,10 +11,10 @@ object SassCompiler {
     try {
       val parentPath = sassFile.getParentFile.getAbsolutePath
       val (cssOutput, dependencies) = runCompiler(
-        Seq("sass", "-l", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
+        Seq(sassCommand, "-l", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
       val (compressedCssOutput, ignored) = runCompiler(
-        Seq("sass", "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
+        Seq(sassCommand, "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
 
       (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
@@ -25,6 +25,10 @@ object SassCompiler {
     }
   }
 
+  private def sassCommand = if (isWindows) "sass.bat" else "sass"
+  
+  private val isWindows = System.getProperty("os.name").toLowerCase().indexOf("win") >= 0
+ 
   private val DependencyLine = """^/\* line \d+, (.*) \*/$""".r
 
   private def runCompiler(command: ProcessBuilder): (String, Seq[String]) = {
