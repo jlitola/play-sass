@@ -2,7 +2,7 @@ package net.litola
 
 import sbt._
 import sbt.Keys._
-import PlayProject._
+import play.Project._
 
 object SassPlugin extends Plugin {
     val sassEntryPoints = SettingKey[PathFinder]("play-sass-entry-points")
