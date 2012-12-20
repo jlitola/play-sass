@@ -7,7 +7,10 @@ import sbt.IO
 import io.Source._
 
 object SassCompiler {
-  def compile(sassFile: File, options: Seq[String]): (String, Option[String], Seq[File]) = {
+  def compile(sassFile: File, opts: Seq[String]): (String, Option[String], Seq[File]) = {
+    // for some reason Play is handing in a rjs parameter if RequireJS is active. Filter it out,
+    // as it puzzles the SASS compiler
+    val options = opts.filter { _ != "rjs" }
     try {
       val parentPath = sassFile.getParentFile.getAbsolutePath
       val (cssOutput, dependencies) = runCompiler(
@@ -17,10 +20,12 @@ object SassCompiler {
         Seq(sassCommand, "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
 
-      (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
+      val allDependencies = Seq(sassFile) ++ dependencies.map { new File(_) }
+      
+      (cssOutput, Some(compressedCssOutput), allDependencies )
     } catch {
       case e: SassCompilationException => {
-        throw AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: " + e.message, e.line, e.column)
+        throw AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: During compilation of '" + sassFile + "': " + e.message, Some(e.line), Some(e.column))
       }
     }
   }
@@ -44,10 +49,10 @@ object SassCompiler {
       val dependencies = out.lines.collect {
           case DependencyLine(f) => f
         }
-
+      
       (out.mkString, dependencies.toList.distinct)
     } else
-      throw new SassCompilationException(err.toString)
+      throw new SassCompilationException("Command '" + command.toString + "' said: " + err.mkString)
   }
 
   private val LocationLine = """\s*on line (\d+) of (.*)""".r
