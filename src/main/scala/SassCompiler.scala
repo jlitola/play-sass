@@ -49,7 +49,7 @@ object SassCompiler {
       
       (out.mkString, dependencies.toList.distinct)
     } else
-      throw new SassCompilationException(err.toString)
+      throw new SassCompilationException(err.mkString)
   }
 
   private val LocationLine = """\s*on line (\d+) of (.*)""".r
