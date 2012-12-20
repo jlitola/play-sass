@@ -4,3 +4,6 @@ project/target
 .idea
 .idea_modules
 .sass-cache
+.classpath
+.project
+.settings
