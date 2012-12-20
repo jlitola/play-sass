@@ -11,8 +11,8 @@ object SassPlugin extends Plugin {
         { file => (file ** "*.sass") +++ (file ** "*.scss") },
         sassEntryPoints,
         { (name, min) => 
-            name.replace(".sass", if (min) ".min.css" else ".css") 
-            name.replace(".scss", if (min) ".min.css" else ".css") 
+            val tmp = name.replace(".sass", if (min) ".min.css" else ".css") 
+            tmp.replace(".scss", if (min) ".min.css" else ".css")
         },
         { SassCompiler.compile _ },
         sassOptions

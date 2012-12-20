@@ -17,7 +17,9 @@ object SassCompiler {
         Seq(sassCommand, "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
         )
 
-      (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
+      val allDependencies = Seq(sassFile) ++ dependencies.map { new File(_) }
+      
+      (cssOutput, Some(compressedCssOutput), allDependencies )
     } catch {
       case e: SassCompilationException => {
         throw AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: " + e.message, Some(e.line), Some(e.column))
@@ -44,7 +46,7 @@ object SassCompiler {
       val dependencies = out.lines.collect {
           case DependencyLine(f) => f
         }
-
+      
       (out.mkString, dependencies.toList.distinct)
     } else
       throw new SassCompilationException(err.toString)
