@@ -18,12 +18,10 @@ object SassPlugin extends Plugin {
         sassOptions
     )
 
-    override val settings = Seq(
+    val sassSettings = Seq(
         sassEntryPoints <<= (sourceDirectory in Compile)(base => ((base / "assets" ** "*.sass") +++ (base / "assets" ** "*.scss") --- base / "assets" ** "_*")), 
         sassOptions := Seq.empty[String],
         resourceGenerators in Compile <+= sassWatcher
     )
 }
 
-
-// vim: set ts=4 sw=4 et:
