@@ -14,14 +14,16 @@ needs to be found in path. Sass can be installed by by installing `sass` gem.
 
 You can verify that `sass` has been installed by following command:
 
-	  % sass -v
-		Sass 3.1.16 (Brainy Betty)
+	% sass -v
+	Sass 3.1.16 (Brainy Betty)
 
 
 Installation
 ------------
 
 Add following to your projects `project/plugins.sbt`
+
+	resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
 	addSbtPlugin("net.litola" % "play-sass" % "0.1.3")
 
