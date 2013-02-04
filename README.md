@@ -1,7 +1,7 @@
 play-sass
 =========
 
-[Sass][sass] asset handling plugin for [Play 2.0][play]. Implemented as [sbt][sbt]
+[Sass][sass] asset handling plugin for [Play 2.x][play]. Implemented as [sbt][sbt]
 plugin.
 
 Prerequisites
@@ -25,7 +25,7 @@ Add following to your projects `project/plugins.sbt`
 
 	resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
-	addSbtPlugin("net.litola" % "play-sass" % "0.1.3")
+	addSbtPlugin("net.litola" % "play-sass" % "0.2.0")
 
 This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `app/assets` 
 directories will then be automatically compiled to `*.css` files. Files starting with 
@@ -40,14 +40,18 @@ In addition you'll need to add settings to your project.
 Versions
 --------
 
-* *0.1.3* [2013-02-04] Sass command line options can be overridden. Do not
+The newest versions only support Play 2.1. If you need support for Play 2.0, please use
+version from 0.1.x series.
+
+* **0.2.0** [2013-03-01] Supports Play 2.1
+* **0.1.3** [2013-02-04] Sass command line options can be overridden. Do not
 	override settings in plugin (Thanks to Kenji Yoshida). Made play-sass
 	available via Sonatype.
-* *0.1.2* [2012-11-16] Minimal windows support by Kalle Bertell. Changed to use
+* **0.1.2** [2012-11-16] Minimal windows support by Kalle Bertell. Changed to use
 	play 2.0.4.
-* *0.1.1* [2012-08-10] Dependency tracking for imported files. Should behave
+* **0.1.1** [2012-08-10] Dependency tracking for imported files. Should behave
 	correctly with incrementalAssetsCompilation := true. Changed to use play 2.0.3, sbt 0.11.3.
-* *0.1.0* [2012-05-04] Initial release
+* **0.1.0** [2012-05-04] Initial release
 
 Acknowledgements
 ----------------

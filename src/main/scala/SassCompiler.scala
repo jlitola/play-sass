@@ -7,7 +7,11 @@ import sbt.IO
 import io.Source._
 
 object SassCompiler {
-  def compile(sassFile: File, options: Seq[String]): (String, Option[String], Seq[File]) = {
+  def compile(sassFile: File, opts: Seq[String]): (String, Option[String], Seq[File]) = {
+    // Filter out rjs option added by AssetsCompiler until we get clarity on what would
+    // be proper solution
+    // See: https://groups.google.com/d/topic/play-framework/VbhJUfVl-xE/discussion
+    val options = opts.filter { _ != "rjs" }
     try {
       val parentPath = sassFile.getParentFile.getAbsolutePath
       val (cssOutput, dependencies) = runCompiler(
@@ -20,7 +24,7 @@ object SassCompiler {
       (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
     } catch {
       case e: SassCompilationException => {
-        throw AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: " + e.message, e.line, e.column)
+        throw AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: " + e.message, Some(e.line), Some(e.column))
       }
     }
   }

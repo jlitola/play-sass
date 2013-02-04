@@ -27,8 +27,8 @@ class SassCompilerSpec extends FunSpec {
         SassCompiler.compile(scssFile, Nil)
       }
       val expectedMessage =
-        """Compilation error [Sass compiler: Syntax error: Invalid CSS after "	display: none;": expected "}", was ""]"""
-      assert(thrown.line.getOrElse(0) === 3)
+        """Compilation error[Sass compiler: Syntax error: Invalid CSS after "	display: none;": expected "}", was ""]"""
+      assert(thrown.line === 3)
       assert(thrown.getMessage === expectedMessage)
     }
   }
