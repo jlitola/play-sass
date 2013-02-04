@@ -14,7 +14,7 @@ object SassPlugin extends Plugin {
             name.replace(".sass", if (min) ".min.css" else ".css") 
             name.replace(".scss", if (min) ".min.css" else ".css") 
         },
-        { SassCompiler.compile _ },
+        { (file, options) => SassCompiler.compile(file, options) },
         sassOptions
     )
 
