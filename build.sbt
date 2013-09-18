@@ -13,10 +13,10 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 /// Dependencies
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "1.7.1" % "test"
+  "org.scalatest" % "scalatest_2.10" % "1.9.1" % "test"
 )
 
-addSbtPlugin("play" % "sbt-plugin" % "2.1.0")                                        
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.0")
 
 publishTo <<= version { v: String =>
   val nexus = "https://oss.sonatype.org/"
@@ -26,7 +26,7 @@ publishTo <<= version { v: String =>
     Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
-useGpg:= true
+/// useGpg:= true
 
 publishMavenStyle := true
 
