@@ -1,6 +1,6 @@
 package net.litola
 
-import sbt.PlayExceptions.AssetCompilationException
+import play._
 import java.io.File
 import scala.sys.process._
 import sbt.IO
@@ -24,7 +24,7 @@ object SassCompiler {
       (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
     } catch {
       case e: SassCompilationException => {
-        throw AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: " + e.message, Some(e.line), Some(e.column))
+        throw PlayExceptions.AssetCompilationException(e.file.orElse(Some(sassFile)), "Sass compiler: " + e.message, Some(e.line), Some(e.column))
       }
     }
   }
