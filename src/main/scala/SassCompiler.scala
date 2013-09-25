@@ -1,6 +1,6 @@
 package net.litola
 
-import sbt.PlayExceptions.AssetCompilationException
+import play.PlayExceptions.AssetCompilationException
 import java.io.File
 import scala.sys.process._
 import sbt.IO
