@@ -25,24 +25,34 @@ Add following to your projects `project/plugins.sbt`
 
 	resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
-	addSbtPlugin("net.litola" % "play-sass" % "0.2.0")
+	addSbtPlugin("net.litola" % "play-sass" % "0.3.0")
 
-This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `app/assets` 
-directories will then be automatically compiled to `*.css` files. Files starting with 
-`_`-character will be left out from compilation as per Play convention.
+In addition you'll need to add settings to your project. On Play 2.2 this is
+done by modifying `build.sbt` and adding import for the SassPlugin, and adding
+SassPlugin settings.
 
-In addition you'll need to add settings to your project.
+	import net.litola.SassPlugin
+
+	play.Project.playScalaSettings ++ SassPlugin.sassSettings
+
+On Play 2.1 and Play 2.0 you should do following changes to `project/Build.scala`.
 
 	import net.litola.SassPlugin
 
 	val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings( SassPlugin.sassSettings:_* )
 
+This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `app/assets` 
+directories will then be automatically compiled to `*.css` files. Files starting with 
+`_`-character will be left out from compilation as per Play convention.
+
 Versions
 --------
 
-The newest versions only support Play 2.1. If you need support for Play 2.0, please use
-version from 0.1.x series.
+The newest version only support Play 2.2. If you need support for older versions, please use
+0.2.x or 0.1.x series.
 
+* **0.3.0** [2013-09-25] Supports Play 2.2 (Thanks to Nilanjan Raychaudhuri and
+	Zarkus13)
 * **0.2.0** [2013-03-01] Supports Play 2.1
 * **0.1.3** [2013-02-04] Sass command line options can be overridden. Do not
 	override settings in plugin (Thanks to Kenji Yoshida). Made play-sass
