@@ -45,6 +45,15 @@ This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `a
 directories will then be automatically compiled to `*.css` files. Files starting with 
 `_`-character will be left out from compilation as per Play convention.
 
+Customizing
+-----------
+
+If you would like to pass your own command line arguments to Sass call, you can
+do it by overriding `Sassplugin.sassOptions`. For example to use Compass you can use
+following:
+
+	play.Project.playScalaSettings ++ SassPlugin.sassSettings ++ Seq(SassPlugin.sassOptions := Seq("--compass", "-r", "compass"))
+
 Versions
 --------
 
