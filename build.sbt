@@ -1,6 +1,6 @@
 name := "play-sass"
 
-version := "0.2.0"
+version := "0.2.1"
 
 sbtPlugin := true
 
@@ -13,10 +13,10 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 /// Dependencies
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "1.7.1" % "test"
+  "org.scalatest" % "scalatest_2.10" % "1.9.2" % "test"
 )
 
-addSbtPlugin("play" % "sbt-plugin" % "2.1.0")                                        
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.0")                                        
 
 publishTo <<= version { v: String =>
   val nexus = "https://oss.sonatype.org/"

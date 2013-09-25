@@ -23,7 +23,7 @@ class SassCompilerSpec extends FunSpec {
     }
     it("should fail to compile malformed scss file") {
       val scssFile = new File("src/test/resources/broken.scss")
-      val thrown = intercept[sbt.PlayExceptions.AssetCompilationException] {
+      val thrown = intercept[play.PlayExceptions.AssetCompilationException] {
         SassCompiler.compile(scssFile, Nil)
       }
       val expectedMessage =
