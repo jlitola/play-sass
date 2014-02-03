@@ -33,7 +33,7 @@ SassPlugin settings.
 
 	import net.litola.SassPlugin
 
-	play.Project.playScalaSettings ++ SassPlugin.sassSettings
+	SassPlugin.sassSettings
 
 On Play 2.1 and Play 2.0 you should do following changes to `project/Build.scala`.
 
@@ -52,7 +52,9 @@ If you would like to pass your own command line arguments to Sass call, you can
 do it by overriding `Sassplugin.sassOptions`. For example to use Compass you can use
 following:
 
-	play.Project.playScalaSettings ++ SassPlugin.sassSettings ++ Seq(SassPlugin.sassOptions := Seq("--compass", "-r", "compass"))
+	SassPlugin.sassSettings
+	
+	SassPlugin.sassOptions := Seq("--compass", "-r", "compass")
 
 Versions
 --------
