@@ -4,7 +4,7 @@ import play.PlayExceptions.AssetCompilationException
 import java.io.File
 import scala.sys.process._
 import sbt.IO
-import io.Source._
+//import io.Source._
 
 object SassCompiler {
   def compile(sassFile: File, opts: Seq[String]): (String, Option[String], Seq[File]) = {
