@@ -2,9 +2,9 @@ package net.litola
 
 import sbt._
 import sbt.Keys._
-import play.Project._
+import play._
 
-object SassPlugin extends Plugin {
+object SassPlugin extends Plugin with PlayAssetsCompiler {
     val sassEntryPoints = SettingKey[PathFinder]("play-sass-entry-points")
     val sassOptions = SettingKey[Seq[String]]("play-sass-options")
     val sassWatcher = AssetsCompiler("sass",

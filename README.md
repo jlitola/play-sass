@@ -25,7 +25,7 @@ Add following to your projects `project/plugins.sbt`
 
 	resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 
-	addSbtPlugin("net.litola" % "play-sass" % "0.3.0")
+	addSbtPlugin("net.litola" % "play-sass" % "0.4.0")
 
 In addition you'll need to add settings to your project. On Play 2.2 this is
 done by modifying `build.sbt` and adding import for the SassPlugin, and adding
@@ -57,9 +57,9 @@ following:
 Versions
 --------
 
-The newest version only support Play 2.2. If you need support for older versions, please use
-0.2.x or 0.1.x series.
-
+The newest version only support Play 2.3. If you need support for older versions, please use
+0.3.0, 0.2.x or 0.1.x series.
+* **0.4.0** [2014-07-03] Supports Play 2.3
 * **0.3.0** [2013-09-25] Supports Play 2.2 (Thanks to Nilanjan Raychaudhuri and
 	Zarkus13)
 * **0.2.0** [2013-03-01] Supports Play 2.1
