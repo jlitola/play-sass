@@ -1,10 +1,10 @@
 package net.litola
 
-import play.PlayExceptions.AssetCompilationException
 import java.io.File
+
+import play.PlayExceptions.AssetCompilationException
+
 import scala.sys.process._
-import sbt.IO
-import io.Source._
 
 object SassCompiler {
   def compile(sassFile: File, opts: Seq[String]): (String, Option[String], Seq[File]) = {
@@ -41,7 +41,7 @@ object SassCompiler {
 
     val capturer = ProcessLogger(
       (output: String) => out.append(output + "\n"),
-      (error: String) => err.append(error + "\n"))
+      (error: String)  => err.append(error + "\n"))
 
     val process = command.run(capturer)
     if (process.exitValue == 0) {
@@ -51,7 +51,7 @@ object SassCompiler {
 
       (out.mkString, dependencies.toList.distinct)
     } else
-      throw new SassCompilationException(err.toString)
+      throw new SassCompilationException(err.toString())
   }
 
   private val LocationLine = """\s*on line (\d+) of (.*)""".r
@@ -61,18 +61,22 @@ object SassCompiler {
     val (file: Option[File], line: Int, column: Int, message: String) = parseError(stderr)
 
     private def parseError(error: String): (Option[File], Int, Int, String) = {
-      var line = 0
-      var seen = 0
-      var column = 0
+      var line   = 0
+      var seen   = 0
+      val column = 0
       var file : Option[File] = None
       var message = "Unknown error, try running sass directly"
+
       for (errline: String <- augmentString(error).lines) {
         errline match {
-          case LocationLine(l, f) => { line = l.toInt; file = Some(new File(f)); }
-          case other if (seen == 0) => { message = other; seen += 1 }
-          case other =>
+          case LocationLine(l, f) => line    = l.toInt
+                                     file    = Some(new File(f))
+          case other if seen == 0 => message = other
+                                     seen   += 1
+          case _                  => // do nothing
         }
       }
+
       (file, line, column, message)
     }
   }
