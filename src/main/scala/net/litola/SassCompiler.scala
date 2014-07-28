@@ -12,14 +12,15 @@ object SassCompiler {
     // be proper solution
     // See: https://groups.google.com/d/topic/play-framework/VbhJUfVl-xE/discussion
     val options = opts.filter { _ != "rjs" }
+
     try {
       val parentPath = sassFile.getParentFile.getAbsolutePath
       val (cssOutput, dependencies) = runCompiler(
         Seq(sassCommand, "-l", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
-        )
+      )
       val (compressedCssOutput, ignored) = runCompiler(
         Seq(sassCommand, "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
-        )
+      )
 
       (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
     } catch {
@@ -30,9 +31,9 @@ object SassCompiler {
   }
 
   private def sassCommand = if (isWindows) "sass.bat" else "sass"
-  
-  private val isWindows = System.getProperty("os.name").toLowerCase().indexOf("win") >= 0
- 
+
+  private val isWindows = System.getProperty("os.name").toLowerCase.indexOf("win") >= 0
+
   private val DependencyLine = """^/\* line \d+, (.*) \*/$""".r
 
   private def runCompiler(command: ProcessBuilder): (String, Seq[String]) = {
@@ -46,8 +47,8 @@ object SassCompiler {
     val process = command.run(capturer)
     if (process.exitValue == 0) {
       val dependencies = out.lines.collect {
-          case DependencyLine(f) => f
-        }
+        case DependencyLine(f) => f
+      }
 
       (out.mkString, dependencies.toList.distinct)
     } else
@@ -69,10 +70,12 @@ object SassCompiler {
 
       for (errline: String <- augmentString(error).lines) {
         errline match {
-          case LocationLine(l, f) => line    = l.toInt
-                                     file    = Some(new File(f))
-          case other if seen == 0 => message = other
-                                     seen   += 1
+          case LocationLine(l, f) =>
+            line    = l.toInt
+            file    = Some(new File(f))
+          case other if seen == 0 =>
+            message = other
+            seen   += 1
           case _                  => // do nothing
         }
       }

@@ -21,6 +21,36 @@ You can verify that `sass` has been installed by following command:
 Installation
 ------------
 
+Plugin versions are linked to different Play versions. Each Play-version has some differences in how plugin is enabled. Please select suitable instructions below.
+
+After following the instructions `*.sass` and `*.scss` files in `app/assets` 
+directories will then be automatically compiled to `*.css` files. Files starting with 
+`_`-character will be left out from compilation as per Play convention.
+
+
+Play 2.3
+--------
+
+Add following to your projects `project/plugins.sbt`
+
+	resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
+
+	addSbtPlugin("net.litola" % "play-sass" % "0.4.0")
+
+After that you'll need to enable plugin in `build.sbt`. 
+
+	lazy val root = (project in file(".")).enablePlugins(PlayScala, net.litola.SassPlugin)
+
+If you would like to pass your own command line arguments to Sass call, you can
+do it with `.settings` call. For example to use Compass you should append following after previous line.
+
+	.settings(
+    	sassOptions := Seq("--compass")
+  	)
+
+Play 2.2
+--------
+
 Add following to your projects `project/plugins.sbt`
 
 	resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
@@ -35,30 +65,37 @@ SassPlugin settings.
 
 	play.Project.playScalaSettings ++ SassPlugin.sassSettings
 
-On Play 2.1 and Play 2.0 you should do following changes to `project/Build.scala`.
+If you would like to pass your own command line arguments to Sass call, you can
+do it by overriding `Sassplugin.sassOptions`. For example to use Compass you can use
+following:
+
+	play.Project.playScalaSettings ++ SassPlugin.sassSettings ++ Seq(SassPlugin.sassOptions := Seq("--compass"))
+
+
+Play 2.0 & 2.1
+--------------
+
+Add following to your projects `project/plugins.sbt`: 
+
+	resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
+
+	addSbtPlugin("net.litola" % "play-sass" % "0.2.0")
+
+For 2.0 use version 0.1.3.
+
+After that you should do following changes to `project/Build.scala`.
 
 	import net.litola.SassPlugin
 
 	val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings( SassPlugin.sassSettings:_* )
 
-This adds Sass asset compiler to Play project. `*.sass` and `*.scss` files in `app/assets` 
-directories will then be automatically compiled to `*.css` files. Files starting with 
-`_`-character will be left out from compilation as per Play convention.
-
-Customizing
------------
-
-If you would like to pass your own command line arguments to Sass call, you can
-do it by overriding `Sassplugin.sassOptions`. For example to use Compass you can use
-following:
-
-	play.Project.playScalaSettings ++ SassPlugin.sassSettings ++ Seq(SassPlugin.sassOptions := Seq("--compass", "-r", "compass"))
 
 Versions
 --------
 
-The newest version only support Play 2.2. If you need support for older versions, please use
-0.2.x or 0.1.x series.
+The newest version only supports Play 2.3. If you need support for older Play versions, please use earlier plugin versions.
+
+* **0.4.0** [2014-07-28] Supports Play 2.3 (Thanks to guofengzh and hrlqn)
 
 * **0.3.0** [2013-09-25] Supports Play 2.2 (Thanks to Nilanjan Raychaudhuri and
 	Zarkus13)
@@ -81,7 +118,7 @@ Stylus assets.
 License
 -------
 
-Copyright (c) 2012-2013 Juha Litola
+Copyright (c) 2012-2014 Juha Litola
 
 MIT-style license, see details from LICENSE file.
 
