@@ -58,18 +58,17 @@ Add following to your projects `project/plugins.sbt`
 	addSbtPlugin("net.litola" % "play-sass" % "0.3.0")
 
 In addition you'll need to add settings to your project. On Play 2.2 this is
-done by modifying `build.sbt` and adding import for the SassPlugin, and adding
-SassPlugin settings.
+done by modifying `build.sbt` and appending following line:
 
-	import net.litola.SassPlugin
-
-	play.Project.playScalaSettings ++ SassPlugin.sassSettings
+	net.litola.SassPlugin.sassSettings
 
 If you would like to pass your own command line arguments to Sass call, you can
-do it by overriding `Sassplugin.sassOptions`. For example to use Compass you can use
+do it by overriding `SassPlugin.sassOptions`. For example to use Compass you can use
 following:
 
-	play.Project.playScalaSettings ++ SassPlugin.sassSettings ++ Seq(SassPlugin.sassOptions := Seq("--compass"))
+	net.litola.SassPlugin.sassSettings
+	
+	net.litola.SassPlugin.sassOptions := Seq("--compass")
 
 
 Play 2.0 & 2.1
