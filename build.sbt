@@ -1,12 +1,12 @@
 name := "play-sass"
 
-version := "0.3.0"
+version := "0.4.0"
 
 sbtPlugin := true
 
 organization := "net.litola"
 
-description := "SBT plugin for handling Sass assets in Play 2.2"
+description := "SBT plugin for handling Sass assets in Play 2.3"
 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 
@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "1.9.2" % "test"
 )
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.0")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.1")
 
 publishTo <<= version { v: String =>
   val nexus = "https://oss.sonatype.org/"
