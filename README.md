@@ -104,13 +104,9 @@ The `app/assets` directory is mapped to the root path in the running app, so for
 
 can be accessed via this import:
 
-```
+```html
 <link rel="stylesheet" href="@routes.Assets.at("test.css")">
 ```
-
-#### Sourcemaps
-
-Source maps are not currently supported, due to the fact that the plugin captures the STDOUT of the SASS process and writes it to a file, rather than generating intermediate files which are then copied to the target location.  Updating the plugin to support sourcemaps is the first piece of work for which this fork was created.
 
 
 Versions
