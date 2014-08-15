@@ -89,6 +89,26 @@ After that you should do following changes to `project/Build.scala`.
 	val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings( SassPlugin.sassSettings:_* )
 
 
+Usage
+------
+
+#### Source Files
+
+This plugin expects `.scss` your files to be located in `PROJECT_ROOT/app/assets`, or some sub-folder of that folder.
+
+#### Linking to generated CSS
+
+The `app/assets` directory is mapped to the root path in the running app, so for instance the output of this SCSS file:
+
+`app/assets/test.scss`
+
+can be accessed via this import:
+
+```html
+<link rel="stylesheet" href="@routes.Assets.at("test.css")">
+```
+
+
 Versions
 --------
 
