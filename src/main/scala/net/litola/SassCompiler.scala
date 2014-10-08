@@ -8,6 +8,7 @@ import scala.sys.process._
 
 object SassCompiler {
   def compile(sassFile: File, opts: Seq[String]): (String, Option[String], Seq[File]) = {
+    println("Sass compiling file: " + sassFile.getName + "...")
     // Filter out rjs option added by AssetsCompiler until we get clarity on what would
     // be proper solution
     // See: https://groups.google.com/d/topic/play-framework/VbhJUfVl-xE/discussion
@@ -21,7 +22,7 @@ object SassCompiler {
       val (compressedCssOutput, ignored) = runCompiler(
         Seq(sassCommand, "-t", "compressed", "-I", parentPath) ++ options ++ Seq(sassFile.getAbsolutePath)
       )
-
+      println("Done.\n")
       (cssOutput, Some(compressedCssOutput), dependencies.map { new File(_) } )
     } catch {
       case e: SassCompilationException => {
@@ -34,7 +35,7 @@ object SassCompiler {
 
   private val isWindows = System.getProperty("os.name").toLowerCase.indexOf("win") >= 0
 
-  private val DependencyLine = """^/\* line \d+, (.*) \*/$""".r
+  private val DependencyLine = """\s*/\* line \d+, (.*) \*/$""".r
 
   private def runCompiler(command: ProcessBuilder): (String, Seq[String]) = {
     val err = new StringBuilder
