@@ -10,7 +10,7 @@ class SassCompilerSpec extends FunSpec {
     it("should compile well-formed scss file") {
       val scssFile = new File("src/test/resources/ok.scss")
       val (full, minified, deps) = SassCompiler.compile(scssFile, Nil)
-      assert(full.replaceAll("""/\* line.* \*/\n""", "") === ".test {\n  display: none; }\n")
+      assert(full.replaceAll( """/\* line.* \*/\n""", "") === ".test {\n  display: none; }\n")
       assert(minified.orNull === ".test{display:none}\n")
       assert(deps.length === 1)
       assert(deps(0).getName === "ok.scss")
@@ -28,13 +28,14 @@ class SassCompilerSpec extends FunSpec {
 
     it("should fail to compile malformed scss file") {
       val scssFile = new File("src/test/resources/broken.scss")
-      val thrown = intercept[play.PlayExceptions.AssetCompilationException] {
+      val thrown = intercept[com.typesafe.sbt.web.CompileProblemsException] {
         SassCompiler.compile(scssFile, Nil)
       }
+
       val expectedMessage =
-        """Compilation error[Sass compiler: Syntax error: Invalid CSS after "	display: none;": expected "}", was ""]"""
-      assert(thrown.line === 3)
-      assert(thrown.getMessage === expectedMessage)
+        """Compilation error [ Error: Invalid CSS after "	display: none;": expected "}", was "" ]"""
+      assert(thrown.problems.head.position().line().get() === 3)
+      assert(thrown.problems.head.message() === expectedMessage)
     }
   }
 }
