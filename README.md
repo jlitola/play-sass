@@ -1,3 +1,6 @@
+**This plugin is no longer maintained. Feel free to fork it if it is of use to you.**
+
+
 play-sass
 =========
 
